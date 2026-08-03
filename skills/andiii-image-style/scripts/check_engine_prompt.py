@@ -12,6 +12,8 @@ import sys
 PAPER_WORDS = [
     "cold-pressed paper", "paper texture", "paper fiber", "aged paper",
     "washi", "水彩纸", "旧纸", "纸纹", "纸纤维",
+    # 喜茶系 / 潦草系（2026-08-03 加）
+    "宣纸", "牛皮纸", "sketch paper", "白纸",
 ]
 TEXTURE_WORDS = [
     "brush stroke", "wet-on-wet", "granulating", "bloom", "bleeding",
@@ -19,6 +21,12 @@ TEXTURE_WORDS = [
     # zine 系（andiii-zine-style，2026-08-03 加）
     "risograph", "xerox", "halftone", "scan noise", "ink bleed",
     "grain", "mottling", "letterpress", "拼贴", "影印",
+    # 喜茶系（新中式，2026-08-03 加）
+    "水墨", "茶渍", "印章", "书法", "宣纸纹理",
+    # 潦草系（sketchy 手账，2026-08-03 加）
+    "sketchy", "scribble", "doodle", "胶带", "涂改", "马克笔", "铅笔",
+    # 极简系（andiii-minimal-style，2026-08-03 加）
+    "hairline", "grid", "cross-hatch", "subtle shadow", "monochrome", "几何",
 ]
 HARD_BLOCK = [
     "flat vector", "minimalist line art", "charcoal", "gold foil",
@@ -46,7 +54,7 @@ def check(text: str):
     issues = []
     if not any(w in t for w in PAPER_WORDS):
         issues.append("FAIL: 缺纸感词 (cold-pressed paper / 纸纹 / 旧纸 …)")
-    tex_hits = [w for w in TEXTURE_WORDS if w in t]
+    tex_hits = [w for w in TEXTURE_WORDS if w in t and not _is_avoided(t, w)]
     if len(tex_hits) < 2:
         issues.append(f"FAIL: 纹理词 < 2 个 (当前 {len(tex_hits)}: {tex_hits})")
     if not any(w in t for w in ["16:9", "1:1", "21:9", "square", "portrait", "landscape", "竖版", "横版", "方形"]):
