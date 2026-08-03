@@ -23,11 +23,19 @@ HARD_BLOCK = [
     "3d render", "anime style", "swiss grid", "matte poster",
     "clean white background", "cta", "logo",
     "全出血", "玻璃拟态", "霓虹灯", "日系动漫",
+    "炭黑金", "高饱和", "渐变紫", "动漫脸", "卡通",
 ]
 SOFT_WARN = [
     "gradient", "drop shadow", "bokeh", "photo-realistic",
     "stock photo", "high saturation",
 ]
+
+# 规避表述豁免："避免X / 不要X / no X / avoid X" 不算命中（2026-08-03）
+_AVOID_PREFIXES = ("避免", "不要", "no ", "avoid ", "without ")
+
+
+def _is_avoided(t: str, w: str) -> bool:
+    return any(p + w in t for p in _AVOID_PREFIXES)
 
 
 def check(text: str):
@@ -41,7 +49,7 @@ def check(text: str):
     if not any(w in t for w in ["16:9", "1:1", "21:9", "square", "portrait", "landscape", "竖版", "横版", "方形"]):
         issues.append("FAIL: 缺画布比例声明")
     for w in HARD_BLOCK:
-        if w in t:
+        if w in t and not _is_avoided(t, w):
             issues.append(f"FAIL: 硬规避命中 [{w}]")
     for w in SOFT_WARN:
         if w in t:

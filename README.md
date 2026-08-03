@@ -34,6 +34,8 @@
 | 排版路由 | `references/theme-routing.md` | gzh-design 主题路由（留白禅意/石墨极简/摸鱼绿…+ 档位） |
 | 管线说明 | `references/wechat-pipeline.md` | 主链路各阶段说明与调用姿势 |
 
+> 生成产物（图片/HTML）不入库（见 .gitignore）；引擎测试样例在 `outputs/` 本地保留。
+
 ## 依赖（Hermes skills）
 
 - `andiii-writing-style` — 文风引擎（本仓库外，Hermes skills 目录）
