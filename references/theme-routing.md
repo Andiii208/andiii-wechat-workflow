@@ -44,6 +44,7 @@
 ### 生图链路（2026-08-03 用户确认）
 
 - **主链路：Hermes 内置 `image_generate` 工具 = TokenRhythm Wan2.7-Image**（1344×768 起，够用）。用户配置为「Wan2.7-Image 为主，Hermes 为 fallback」——实际 image_generate 自带自动 fallback：某次 Wan2.7 失败时结果 provider 显示 `tokenrhythm→agnes` 自动切到 Agnes agnes-image-2.1-flash，无需手动干预
+- **风格引擎（2026-08-03 接入）**：所有配图/封面先 `skill_view(name='andiii-image-style')` → 四段式编译 → 过质检门 `check_engine_prompt.py`（PASS 才生成）→ Wan2.7 出图。封面双尺寸：cover.png（16:9 首图）+ cover-square.png（1:1 分享图）；中文标题 ≤10 字图内渲染已实测可靠，17 字长句（金句卡）也可行
 - 概念插画 prompt 风格：「极简、概念型、写意不写实」+「深蓝与暖橙色调 / 大量留白 / 无任何文字」+「氛围：一句话点题」。避免「现实主义/照片级」
 
 ### 更新草稿流程（重新推图/改文后）
