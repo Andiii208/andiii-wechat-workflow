@@ -1,0 +1,26 @@
+# secrets — 不入库
+.env
+*.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# 生成产物
+outputs/
+*.png
+*.jpg
+*.jpeg
+!assets/**/*.png
+!assets/**/*.jpg
+
+# 系统
+Thumbs.db
+.DS_Store
+
+# Hermes
+.hermes/
