@@ -33,6 +33,7 @@
 | 方案文档 | `plans/` | 风格引擎化改造完整实施方案 |
 | 排版路由 | `references/theme-routing.md` | gzh-design 主题路由（留白禅意/石墨极简/摸鱼绿…+ 档位） |
 | 管线说明 | `references/wechat-pipeline.md` | 主链路各阶段说明与调用姿势 |
+| 同步脚本 | `scripts/sync_to_hermes.sh` | 引擎 5 文件单向同步到 Hermes skills 目录（改完仓库必跑） |
 
 > 生成产物（图片/HTML）不入库（见 .gitignore）；引擎测试样例在 `outputs/` 本地保留。
 
@@ -49,6 +50,9 @@
 ```bash
 # 引擎自检
 echo "一份水彩封面 prompt" | python skills/andiii-image-style/scripts/check_engine_prompt.py
+
+# 引擎改动后同步到 Hermes（仓库为主副本，必跑）
+bash scripts/sync_to_hermes.sh
 
 # 完整流程（在 Hermes 里）
 "用公众号工作流写一篇关于 XX 的文章"
