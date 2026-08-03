@@ -29,7 +29,9 @@
 
 | 组件 | 位置 | 说明 |
 |---|---|---|
-| 水彩风格引擎 | `skills/andiii-image-style/` | 手绘水彩风四件套（色彩/纹理/排版/规避）+ 四段式 prompt 编译模板 + 按主题弹药库 + 质检门脚本 |
+| 水彩风格引擎 | `skills/andiii-image-style/` | 手绘水彩风四件套 + 四段式编译 + 弹药库 10 类 + 质检门脚本 |
+| Zine 拼贴引擎 | `skills/andiii-zine-style/` | 低饱和拼贴/档案感（适配 moonlin1213/muted-zine-poster-v01，MIT） |
+| 配图风格路由表 | `references/image-style-routing.md` | **文风 → 配图风格 → 引擎** 路由（配图层先路由后选引擎） |
 | 方案文档 | `plans/` | 风格引擎化改造完整实施方案 |
 | 排版路由 | `references/theme-routing.md` | gzh-design 主题路由（留白禅意/石墨极简/摸鱼绿…+ 档位） |
 | 管线说明 | `references/wechat-pipeline.md` | 主链路各阶段说明与调用姿势 |

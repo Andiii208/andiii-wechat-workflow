@@ -16,6 +16,9 @@ PAPER_WORDS = [
 TEXTURE_WORDS = [
     "brush stroke", "wet-on-wet", "granulating", "bloom", "bleeding",
     "splatter", "wash", "晕染", "笔触", "渗开", "水痕", "洗淡",
+    # zine 系（andiii-zine-style，2026-08-03 加）
+    "risograph", "xerox", "halftone", "scan noise", "ink bleed",
+    "grain", "mottling", "letterpress", "拼贴", "影印",
 ]
 HARD_BLOCK = [
     "flat vector", "minimalist line art", "charcoal", "gold foil",
