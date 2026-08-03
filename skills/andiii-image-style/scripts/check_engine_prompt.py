@@ -51,6 +51,11 @@ def check(text: str):
 
 
 def main():
+    # Windows 下 stdin 管道可能是 GBK 解码，强制 UTF-8 防中文 prompt 误判（2026-08-03）
+    try:
+        sys.stdin.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
     if len(sys.argv) > 1 and sys.argv[1] != "-":
         with open(sys.argv[1], encoding="utf-8") as f:
             text = f.read()
