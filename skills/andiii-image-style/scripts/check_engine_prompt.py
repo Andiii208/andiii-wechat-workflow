@@ -11,18 +11,18 @@ import sys
 
 PAPER_WORDS = [
     "cold-pressed paper", "paper texture", "paper fiber", "aged paper",
-    "washi", "水彩纸", "旧纸", "纸纹",
+    "washi", "水彩纸", "旧纸", "纸纹", "纸纤维",
 ]
 TEXTURE_WORDS = [
     "brush stroke", "wet-on-wet", "granulating", "bloom", "bleeding",
-    "splatter", "wash", "晕染", "笔触", "渗开", "水痕",
+    "splatter", "wash", "晕染", "笔触", "渗开", "水痕", "洗淡",
 ]
 HARD_BLOCK = [
     "flat vector", "minimalist line art", "charcoal", "gold foil",
     "gallery poster", "vivid gradient", "glassmorphism", "neon glow",
     "3d render", "anime style", "swiss grid", "matte poster",
-    "high saturation", "clean white background", "cta", "logo",
-    "全出血", "玻璃拟态", "霓虹", "日系动漫",
+    "clean white background", "cta", "logo",
+    "全出血", "玻璃拟态", "霓虹灯", "日系动漫",
 ]
 SOFT_WARN = [
     "gradient", "drop shadow", "bokeh", "photo-realistic",
