@@ -35,6 +35,8 @@
 | 潦草手账引擎 | `skills/andiii-sketchy-style/` | sketchy 涂鸦手账（白纸/牛皮纸/胶带/马克笔），子 agent 蒸馏 |
 | 石墨极简引擎 | `skills/andiii-minimal-style/` | 灰阶理性/细线/大留白（L先生说风向） |
 | 配图风格路由表 | `references/image-style-routing.md` | **文风 → 配图风格 → 引擎** 路由（配图层先路由后选引擎；风格是参考不是限制） |
+| 设计推理层 | `references/design-reasoning.md` | 艺术感保障：6 项设计意图模板 + 艺术指导词表 + anti-slop 抢救手册（全部引擎工作流第 0 步必做） |
+| 调研存档 | `references/learnings/` | design-image-studio anti-slop 等外部 skill 精华存档 |
 | 方案文档 | `plans/` | 风格引擎化改造完整实施方案 |
 | 排版路由 | `references/theme-routing.md` | gzh-design 主题路由（留白禅意/石墨极简/摸鱼绿…+ 档位） |
 | 管线说明 | `references/wechat-pipeline.md` | 主链路各阶段说明与调用姿势 |

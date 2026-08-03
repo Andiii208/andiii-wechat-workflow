@@ -65,6 +65,14 @@
 - v1.2.0：去约束化 — 封面默认无文字、构图全自由、宽松安全区、弹药库布局放开
 - v1.3.0（风格库化，2026-08-03）：多引擎 + 路由
 
+## v1.4 设计推理层（2026-08-04 调研落地）
+
+- **调研收获**（回答"如何确保艺术感/设计感"）：AI 生图"像 AI 图"的根源是**没有设计意图**（只有怎么画、没有为什么这么画）→ 模型只能平均化风格
+- 借鉴：design-image-studio（设计编译器三层 design_reasoning→brief→prompt + anti-slop 抢救手册）、Anthropic 官方 canvas-design（设计哲学先行、运动命名、用户输入不限制创作自由）、brand-guidelines（品牌视觉系统）
+- 落地：`references/design-reasoning.md`（6 项设计推理模板 + 艺术指导词表 + anti-slop 清单 + 单变量迭代）——**全部 5 引擎工作流第 0 步必做**（先定「为什么这么画」再编译）
+- 安全记录：第三方 skill 生态 36% 含 prompt injection（Snyk ToxicSkills 研究）——只吸收理念不装第三方；design-image-studio anti-slop 全文存档 `references/learnings/`
+- 遗留：Andiii 品牌视觉基准（借鉴 brand-guidelines 建品牌色板/字体基线，可选）
+
 ## 风格库化记录（v1.3，2026-08-03）
 
 - **用户纠正 1**：配图风格应按文风匹配，不是默认全用水彩 → 建 `references/image-style-routing.md`（文风→风格→引擎路由）

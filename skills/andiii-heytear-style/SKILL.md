@@ -121,6 +121,7 @@ P4 氛围与规避: [情绪词], 避免flat vector，避免charcoal，避免gold
 
 ## 六、工作流（Andiii 适配层）
 
+0. **设计推理（必做，≤60秒）**：读 `D:/tools/andiii-wechat-workflow/references/design-reasoning.md`，按 6 项模板作答（用途渠道/受众气质/视觉系统/主次层级/留白决策/方向承诺）——先定「为什么这么画」，再动手编译
 1. **转译**：把文章主题/情绪转成茶席意象（P2 隐喻是自由发挥点，不写场景堆砌）
 2. **选变体**：Layout / Anchor / Typography / Texture / Mood 各选一项
 3. **编译**：按四段式模板出完整 prompt（含 P1 安全区约束句）

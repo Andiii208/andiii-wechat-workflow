@@ -107,6 +107,7 @@ P4: 氛围通勤日常、城市漫游感、随手速写手账感；避免精致�
 
 ## 五、工作流（Andiii 适配层）
 
+0. **设计推理（必做，≤60秒）**：读 `D:/tools/andiii-wechat-workflow/references/design-reasoning.md`，按 6 项模板作答（用途渠道/受众气质/视觉系统/主次层级/留白决策/方向承诺）——先定「为什么这么画」，再动手编译。
 1. 转译主题 → 选变体配方（Layout/Anchor/Typography/Texture/Mood 各一）
 2. 按四段式编译 prompt（P2 隐喻是自由发挥点，不写场景堆砌）
 3. **质检门**：`echo "prompt" | python D:/tools/hermes/skills/creative/andiii-image-style/scripts/check_engine_prompt.py`（复用水彩引擎质检门，**PASS 才生成**；sketchy 的 胶带/涂改/马克笔/铅笔/sketchy/scribble/doodle 词已入词表）

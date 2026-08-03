@@ -23,7 +23,7 @@
 ```text
 1. 文章文风已由写作层路由表确定（如 MorningRocks 风）
 2. 查本路由表 → 得配图风格 + 引擎（如 andiii-image-style）
-3. skill_view(name='<引擎>') → 编译四段式 prompt → 质检门 → 生成 → 视觉复核 → 用户确认
+3. skill_view(name='<引擎>') → **设计推理（design-reasoning.md 6 项，必做）** → 编译四段式 prompt → 质检门 → 生成 → 视觉复核 → 用户确认
 4. 路由表状态为 ❌ 的风格：暂时回退手绘水彩或通用 prompt，并提示用户该风格待蒸馏
 ```
 
