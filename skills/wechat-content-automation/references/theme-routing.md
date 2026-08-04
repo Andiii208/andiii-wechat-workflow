@@ -82,10 +82,12 @@ EOF
 6. 推送：`wechat-api.ts <html> --title ... --author "Andiii碎碎念" --summary ... --cover cover.png`（先 `--dry-run`）
 7. 用户公众号助手 App 检查草稿 → 发布
 
-## 字体约定（2026-08-03 定稿）
+## 字体约定（2026-08-03 定稿，2026-08-04 修订）
 
 - **正文/全局字体：宋体衬线栈** `'Songti SC', 'Noto Serif CJK SC', 'Source Han Serif SC', 'SimSun', serif`（iOS 命中宋体，Android 主流命中思源宋体；旧机型回退 serif）
 - 已写入 **全部 6 套主题**的组件库全局容器+骨架+文档行（zen-whitespace / graphite-minimal / moyu-green / moyu-ticket / red-white / olive-journal；olive 保留 IBM Plex Sans 拉丁优先，中文走宋体），排版时**不要覆盖/改回黑体栈**
+- 🔴 **必须段落级显式注入（2026-08-04 实战翻车教训）**
+- 🔴🔴 **注入正则的 `>` 陷阱（2026-08-04 二次翻车，同晚实战）**：`re.sub(r'<(p|h3|section) style="([^"]*)"', inject, html)` 只匹配到 style 引号**不含 `>`**，inject 返回值**不要再补 `>`**（原文的 `>` 还在），否则每个注入点变成 `">><`，页面渲染出 118 个孤立 `>` 字符，整篇排版错乱。修后必须自检：`assert html.count('">><') == 0`，并浏览器打开实际渲染（console 查 `document.body.innerText` 无孤立 `>`、`getComputedStyle(p).fontFamily` 为宋体栈）再推送
 - ⚠️ **字号无法锁死**：微信阅读器强制跟随用户"设置→通用→字体大小"整体缩放（无障碍产品行为），文章内禁 script 无法 hack；排版为纯流式布局，放大不崩，保证"放大后依然整齐"即可
 - 代码块保持等宽字体（monospace），标题用主题自带衬线（zen 的 Noto Serif SC）
 
