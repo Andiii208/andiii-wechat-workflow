@@ -73,6 +73,15 @@
 - 安全记录：第三方 skill 生态 36% 含 prompt injection（Snyk ToxicSkills 研究）——只吸收理念不装第三方；design-image-studio anti-slop 全文存档 `references/learnings/`
 - 遗留：Andiii 品牌视觉基准（借鉴 brand-guidelines 建品牌色板/字体基线，可选）
 
+## v1.5 去AI味深化（2026-08-04）
+
+- 用户问题：怎么让文案没那么 AI 味 → 三层模型：语言层（humanizer 34模式已有）/ 结构层（缺）/ 声音层（缺）
+- 新增 `references/de-ai-craft.md`：结构手术刀（删首尾填充/拆完美段落/去金句堆叠/不均匀化/改结构不改词汇）+ 声音层（立场贯穿/承认矛盾/具体>抽象/结尾不升华）
+- 关键适配：humanizer 的 voice 用"我" → 公众号翻译"你/我们"；立场/矛盾走暖调（忌讳负面表达）
+- andiii-writing-style ⑦升级 + ⓘ₂ 去AI味后复输出（用户"每次改完都输出"要求）
+- 主链写作层同步引用；sync 脚本纳入 de-ai-craft（仓库为主副本）
+- 自查修 4 漏洞：主链未同步引用 / ⑦后无复输出 / 负面例子越界 / 双副本盲区
+
 ## 风格库化记录（v1.3，2026-08-03）
 
 - **用户纠正 1**：配图风格应按文风匹配，不是默认全用水彩 → 建 `references/image-style-routing.md`（文风→风格→引擎路由）

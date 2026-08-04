@@ -26,4 +26,12 @@ for ENG in "${ENGINES[@]}"; do
   echo "✅ $ENG → Hermes"
 done
 
+# 写作层参考（de-ai-craft 手册，仓库为主副本 → Hermes andiii-writing-style）
+DEAIC_SRC="$REPO_ROOT/references/de-ai-craft.md"
+DEAIC_DST="/d/tools/hermes/skills/writing/andiii-writing-style/references/de-ai-craft.md"
+if [ -f "$DEAIC_SRC" ]; then
+  cp "$DEAIC_SRC" "$DEAIC_DST"
+  echo "✅ de-ai-craft.md → Hermes (andiii-writing-style)"
+fi
+
 echo "完成。引擎清单: ${ENGINES[*]}"
