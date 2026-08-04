@@ -34,4 +34,26 @@ if [ -f "$DEAIC_SRC" ]; then
   echo "✅ de-ai-craft.md → Hermes (andiii-writing-style)"
 fi
 
+# 顶层参考（design-reasoning / image-style-routing / theme-routing，仓库为主副本 → Hermes 对应 skill）
+declare -A REF_MAP=(
+  ["design-reasoning.md"]="/d/tools/hermes/skills/creative/ai-image-style-engine/references/design-reasoning.md"
+  ["image-style-routing.md"]="/d/tools/hermes/skills/productivity/wechat-content-automation/references/image-style-routing.md"
+  ["theme-routing.md"]="/d/tools/hermes/skills/productivity/wechat-content-automation/references/theme-routing.md"
+)
+for REF in "${!REF_MAP[@]}"; do
+  if [ -f "$REPO_ROOT/references/$REF" ]; then
+    cp "$REPO_ROOT/references/$REF" "${REF_MAP[$REF]}"
+    echo "✅ $REF → Hermes"
+  fi
+done
+
+# 写作层 skill 本体（仓库为主副本 → Hermes skills 目录，2026-08-04 起纳入）
+mkdir -p "/d/tools/hermes/skills/writing/andiii-writing-style/references" \
+         "/d/tools/hermes/skills/productivity/wechat-content-automation/references"
+cp "$REPO_ROOT/skills/andiii-writing-style/SKILL.md" "/d/tools/hermes/skills/writing/andiii-writing-style/SKILL.md"
+[ -d "$REPO_ROOT/skills/andiii-writing-style/references" ] && cp "$REPO_ROOT/skills/andiii-writing-style/references/"*.md "/d/tools/hermes/skills/writing/andiii-writing-style/references/" 2>/dev/null || true
+cp "$REPO_ROOT/skills/wechat-content-automation/SKILL.md" "/d/tools/hermes/skills/productivity/wechat-content-automation/SKILL.md"
+[ -d "$REPO_ROOT/skills/wechat-content-automation/references" ] && cp "$REPO_ROOT/skills/wechat-content-automation/references/"*.md "/d/tools/hermes/skills/productivity/wechat-content-automation/references/" 2>/dev/null || true
+echo "✅ 写作层 skill → Hermes (andiii-writing-style + wechat-content-automation)"
+
 echo "完成。引擎清单: ${ENGINES[*]}"
