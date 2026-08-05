@@ -1,12 +1,27 @@
 #!/usr/bin/env python3
-"""andiii-image-style 质检门 v1 — prompt 层检查（无 vision 依赖）。
+"""andiii-image-style 质检门 v1.1 — prompt 层检查（无 vision 依赖）。
 
 用法:
     echo "prompt内容" | python check_engine_prompt.py
     python check_engine_prompt.py prompt.txt
+    python check_engine_prompt.py --format json prompt.txt
 
-退出码: 0 = PASS, 1 = FAIL/WARN
+退出码: 0 = PASS, 1 = FAIL, 2 = WARN（软规避命中）, 3 = 脚本/参数错误
+
+2026-08-06 修订:
+    - 退出码三态化：WARN 不再伪装成 PASS（原实现 WARN-only 返回 0）
+    - --format json 机器可读输出（含 exit_code，供 CI/包装器消费）
+    - 负向表达识别升级：规避词后 8 字符内出现目标词即豁免
+      （"不要使用高饱和" / "do not use neon glow" 不再误报）
+    - 软规避（SOFT_WARN）同样应用负向豁免
+
+已知限制（2026-08-06 记录）:
+    - 纸感/纹理/规避词表为全引擎共用，未做 per-engine profile
+      （石墨极简/黑白针管笔等非纸张风格需要独立词表时再引入 policies/）
+    - 负向豁免是全文级：同一词在"豁免句 + 正向句"中同时出现时整体豁免
 """
+import json
+import re
 import sys
 
 PAPER_WORDS = [
@@ -41,12 +56,17 @@ SOFT_WARN = [
     "stock photo", "high saturation",
 ]
 
-# 规避表述豁免："避免X / 不要X / no X / avoid X" 不算命中（2026-08-03）
-_AVOID_PREFIXES = ("避免", "不要", "no ", "avoid ", "without ")
+# 规避表述豁免："避免X / 不要X / do not use X / avoid X / without X" 不算命中。
+# 2026-08-06 升级：目标词前 12 字符内出现规避前缀即豁免（不再要求连续前缀）
+_AVOID_RE = re.compile(r"(?:避免|不要|no\s+|not\s+|avoid\s+|without\s+)")
 
 
 def _is_avoided(t: str, w: str) -> bool:
-    return any(p + w in t for p in _AVOID_PREFIXES)
+    idx = t.find(w.lower())
+    if idx < 0:
+        return False
+    start = max(0, idx - 12)
+    return _AVOID_RE.search(t[start:idx]) is not None
 
 
 def check(text: str):
@@ -63,28 +83,57 @@ def check(text: str):
         if w in t and not _is_avoided(t, w):
             issues.append(f"FAIL: 硬规避命中 [{w}]")
     for w in SOFT_WARN:
-        if w in t:
+        if w in t and not _is_avoided(t, w):
             issues.append(f"WARN: 软规避命中 [{w}]")
     has_fail = any(i.startswith("FAIL") for i in issues)
-    return ("FAIL" if has_fail else "PASS", issues)
+    has_warn = any(i.startswith("WARN") for i in issues)
+    if has_fail:
+        return ("FAIL", issues)
+    if has_warn:
+        return ("WARN", issues)
+    return ("PASS", issues)
 
 
 def main():
+    args = sys.argv[1:]
+    fmt = "text"
+    if "--format" in args:
+        i = args.index("--format")
+        fmt = args[i + 1] if i + 1 < len(args) else "text"
+        del args[i:i + 2]
+    if fmt not in ("text", "json"):
+        print(f"🔴 未知 --format: {fmt}（支持 text/json）", file=sys.stderr)
+        sys.exit(3)
+
     # Windows 下 stdin 管道可能是 GBK 解码，强制 UTF-8 防中文 prompt 误判（2026-08-03）
     try:
         sys.stdin.reconfigure(encoding="utf-8")
     except Exception:
         pass
-    if len(sys.argv) > 1 and sys.argv[1] != "-":
-        with open(sys.argv[1], encoding="utf-8") as f:
-            text = f.read()
+
+    if args and args[0] != "-":
+        try:
+            with open(args[0], encoding="utf-8") as f:
+                text = f.read()
+        except OSError as e:
+            print(f"🔴 读取失败: {e}", file=sys.stderr)
+            sys.exit(3)
     else:
         text = sys.stdin.read()
+
     status, issues = check(text)
-    print(status)
-    for i in issues:
-        print(" ", i)
-    sys.exit(0 if status == "PASS" else 1)
+    code = {"PASS": 0, "FAIL": 1, "WARN": 2}[status]
+
+    if fmt == "json":
+        print(json.dumps(
+            {"status": status, "exit_code": code, "issues": issues},
+            ensure_ascii=False,
+        ))
+    else:
+        print(status)
+        for i in issues:
+            print(" ", i)
+    sys.exit(code)
 
 
 if __name__ == "__main__":

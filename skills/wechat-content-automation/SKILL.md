@@ -105,22 +105,8 @@ related_skills:
 - 需要：`AppID` + `AppSecret`
 
 ### 运行时
-- **Bun** (v1.x): 全局安装 `npm install -g bun`
-- **baoyu-post-to-wechat** skill: 已安装到 Hermes skills 目录
-  - 安装方式：`git clone` baoyu-skills 仓库 → 复制 `skills/baoyu-post-to-wechat/` 到 Hermes skills 目录
-  - 注：`hermes skills install` 在国内可能因 raw.githubusercontent.com 被屏蔽而超时，改用 git clone 方式
-- 凭证文件: `~/.baoyu-skills/.env`
-  ```
-  WECHAT_APP_ID=your_app_id
-  WECHAT_APP_SECRET=your_app_secret
-  ```
-- 偏好设置: `~/.baoyu-skills/baoyu-post-to-wechat/EXTEND.md`
-  ```
-  default_author: 公众号名称
-  need_open_comment: 1
-  only_fans_can_comment: 0
-  default_publish_method: api
-  ```
+- 完整安装步骤（Bun / baoyu-post-to-wechat / 凭证 / 偏好 / 白名单 / 验证）见 `references/setup-notes.md`
+- 关键点：Bun v1.x；baoyu-post-to-wechat 用 `git clone` 安装（`hermes skills install` 在国内常因 raw.githubusercontent.com 被屏蔽超时）；凭证在 `~/.baoyu-skills/.env`（`WECHAT_APP_ID` + `WECHAT_APP_SECRET`）；偏好 `~/.baoyu-skills/baoyu-post-to-wechat/EXTEND.md`（default_author / need_open_comment / default_publish_method: api）
 
 ## 写作规范
 

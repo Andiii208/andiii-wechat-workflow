@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  # ---- 1. 全历史 secret 扫描 ----
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # 全历史
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # ---- 2. 仓库结构校验（broken link / references / frontmatter / secret pattern）----
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: 仓库校验
+        run: python scripts/validate_repo.py
+
+  # ---- 3. 脚本语法检查 ----
+  script-lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Shell 语法检查（sync 脚本）
+        run: bash -n scripts/sync_to_hermes.sh
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python 语法检查
+        run: |
+          python -m py_compile scripts/validate_repo.py
+          python -m py_compile skills/andiii-image-style/scripts/crop_image.py
+          python -m py_compile skills/andiii-image-style/scripts/check_engine_prompt.py
+      - name: 质检门冒烟测试（PASS/WARN/FAIL 三态 + JSON）
+        run: |
+          set +e
+          echo "cold-pressed paper, brush stroke, 晕染, 16:9" | python skills/andiii-image-style/scripts/check_engine_prompt.py > /dev/null 2>&1
+          [ $? -eq 0 ] || { echo "PASS 态退出码错误"; exit 1; }
+          echo "cold-pressed paper, brush stroke, 晕染, 16:9, high saturation" | python skills/andiii-image-style/scripts/check_engine_prompt.py > /dev/null 2>&1
+          [ $? -eq 2 ] || { echo "WARN 态退出码错误"; exit 1; }
+          echo "cold-pressed paper, brush stroke, 晕染, 16:9, neon glow" | python skills/andiii-image-style/scripts/check_engine_prompt.py > /dev/null 2>&1
+          [ $? -eq 1 ] || { echo "FAIL 态退出码错误"; exit 1; }
+          echo "smoke test PASS"
