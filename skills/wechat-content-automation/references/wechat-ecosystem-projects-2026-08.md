@@ -21,7 +21,7 @@
 - ✅ **Phase 1 已装**：`git clone --depth 1 https://github.com/isjiamu/gzh-design-skill.git D:/tools/hermes/skills/productivity/gzh-design-skill`；`python3 scripts/component_lint.py .` → 0 ERROR（2 个 WARN 是摸鱼绿/橄榄手记主题自带虚线框的设计特性，属预期）；skills_list 已可见（category: productivity）
 - ✅ **Phase 2 已出 A/B 实测**：按风格路由现写 3 篇测试样本（01 日常随笔/槽边往事风、02 诗意/MorningRocks 风、03 观点/L先生说风），分别用 留白禅意(素)/留白禅意(标准)/石墨极简(全套) 装配，`validate_gzh_html.py` 全部 0 ERROR，`wrap_preview.py` 生成预览页；对照组用 `md-to-wechat.ts --theme grace --color blue` 渲染。样本目录 `D:\tools\gzh-test\20260803\`。**用户已确认账号发布内容按话题切换文风、无单一调性 → 排版必须走主题路由，不做单一默认主题**
 - ✅ **G1 已定稿**（2026-08-03 用户看预览后拍板"很好"）：路由定稿=下表三行（日常→留白禅意素 / 诗意→留白禅意标准 / 观点→石墨极简全套）；签名=**动态收尾版**——每篇由 AI 按文章内容写一句收尾（如「明天还来，说的也是你。」）+「—— Andiii碎碎念」，**不含三连 CTA**，写砸了随时改回固定文案；WhatYouNeed/新世相两行路由留待后续文章实测补
-- **Phase 3（2026-08-03 实测）**：`--dry-run` ✅ 通过（HTML 正确解析、contentLength 10995、零微信调用）；真实推草稿 ❌ 卡 **40164 IP 白名单**——微信报错显示出口 IP `117.151.124.90`（宽带直连 IP）不在白名单。诊断：Clash Mini TUN 模式下 `api.weixin.qq.com` 按规则走直连，`curl ifconfig.me` 看到的是代理出口（IP_REDACTED）——**以微信报错里的 IP 为准**。处置：公众号后台（设置与开发→基本配置→IP 白名单）加 `117.151.124.90`。⚠️ 家庭宽带 IP 动态会再失效 → 根治用 baoyu `--remote`（固定 IP 服务器出口，用户计划买阿里云轻量）
+- **Phase 3（2026-08-03 实测）**：`--dry-run` ✅ 通过（HTML 正确解析、contentLength 10995、零微信调用）；真实推草稿 ❌ 卡 **40164 IP 白名单**——微信报错显示出口 IP `IP_REDACTED`（宽带直连 IP）不在白名单。诊断：Clash Mini TUN 模式下 `api.weixin.qq.com` 按规则走直连，`curl ifconfig.me` 看到的是代理出口（IP_REDACTED）——**以微信报错里的 IP 为准**。处置：公众号后台（设置与开发→基本配置→IP 白名单）加白名单。⚠️ 家庭宽带 IP 动态会再失效 → 根治用 baoyu `--remote`（固定 IP 服务器出口，用户计划买阿里云轻量）
 - **G2 决策门**（待白名单修好后验证）：gzh-design HTML → `wechat-api.ts --html` 全自动 vs Plan B（预览页→人工粘贴）。API 路径下 span leaf 样式是否保留是最大未知点，需真实推草稿到公众号助手 App 验证
 - G3（默认不做）：doocs/md 本地部署
 
