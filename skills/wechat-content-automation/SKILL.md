@@ -57,7 +57,7 @@ related_skills:
 ② 配图层 (可选): 
    → **先路由后选引擎（2026-08-03）**：查 `references/image-style-routing.md`（配图风格路由表）→ 按文章文风定配图风格 → 加载对应引擎：
        ✅ **本地已有副本**（2026-08-04 已落盘）——权威源在 GitHub 仓库 Andiii208/andiii-wechat-workflow/references/image-style-routing.md，本地副本由 sync 脚本维护；若怀疑过时，用 MCP `mcp__github__get_file_contents`(owner=Andiii208, repo=andiii-wechat-workflow, path=references/image-style-routing.md) 对比
-       andiii-image-style（手绘水彩） / andiii-zine-style（Zine 拼贴） / 其他待建
+       andiii-image-style（手绘水彩） / andiii-zine-style（Zine 拼贴） / andiii-sketchy-style（潦草手账） / andiii-minimal-style（石墨极简） / andiii-heytear-style（喜茶拙趣） / antibes-holiday（黑白针管笔, 2026-08-06 装）
    → 引擎流程: 编译四段式 prompt → 质检门 `check_engine_prompt.py`（PASS 才允许生成）
    → 封面: 内置 image_generate（Wan2.7-Image 主力, 中文标题渲染已实测可用）一次出两版
        cover.jpg (16:9 生成→2.35:1 中心裁, 默认无文字+宽松安全区) + cover-square.jpg (1:1)
