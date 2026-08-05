@@ -26,6 +26,7 @@
 2. 查本路由表 → 得配图风格 + 引擎（如 andiii-image-style）
 3. skill_view(name='<引擎>') → **设计推理（design-reasoning.md 6 项，必做）** → 编译四段式 prompt → 质检门 → 生成 → 视觉复核 → 用户确认
 4. 路由表状态为 ❌ 的风格：暂时回退手绘水彩或通用 prompt，并提示用户该风格待蒸馏
+5. ⚠️ `antibes-holiday`（黑白针管笔）不走 check_engine_prompt.py 质检门——用其自带的 Comparative Validation（Physicality/Tempo/Instability/Shorthand/Relaxation/Transfer/Originality 七道主门），prompt 编译用它的 prompt-recipes.md 而非四段式
 ```
 
 ## 风格蒸馏排队（用户点名/调研沉淀）
