@@ -34,9 +34,10 @@ if [ -f "$DEAIC_SRC" ]; then
   echo "✅ de-ai-craft.md → Hermes (andiii-writing-style)"
 fi
 
-# 顶层参考（design-reasoning / image-style-routing / theme-routing，仓库为主副本 → Hermes 对应 skill）
-# ⚠️ 2026-08-06 教训: image-style-routing.md 曾同时存在于 skills/wechat-content-automation/references/（旧副本），
-#    同步时后拷的旧副本覆盖了顶层新副本 → Hermes 丢新行。顶层 references/ 是唯一权威源，skill 目录不得再放同名副本。
+# 顶层参考（design-reasoning / image-style-routing / theme-routing / de-ai-craft，仓库为主副本 → Hermes 对应 skill）
+# ⚠️ 2026-08-06 教训（两次）: image-style-routing.md 和 de-ai-craft.md 曾同时存在于 skills/*/references/（旧副本），
+#    同步时后拷的旧副本覆盖了顶层新副本 → Hermes 丢新行。顶层 references/ 是唯一权威源，skills/*/references/ 不得放同名副本。
+#    已删除 skills/andiii-writing-style/references/de-ai-craft.md 与 skills/wechat-content-automation/references/theme-routing.md。
 declare -A REF_MAP=(
   ["design-reasoning.md"]="/d/tools/hermes/skills/creative/ai-image-style-engine/references/design-reasoning.md"
   ["image-style-routing.md"]="/d/tools/hermes/skills/productivity/wechat-content-automation/references/image-style-routing.md"

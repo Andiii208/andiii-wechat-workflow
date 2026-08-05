@@ -51,6 +51,7 @@ related_skills:
    → 按匹配风格写作，**默认停靠点（2026-08-03 明确）**：输出全文给用户审阅，用户确认后才进入配图/排版/推送；仅当用户明确说「直接做 / 你随意 / 不用审阅」才全自动跳过
    → skill_view(name='humanizer') — 去AI味语言层：扫描34种AI写作模式（排比过度、强行升华、虚假深度、值得注意的是类短语、否定排比、三连排比）
    → andiii-writing-style ⑦（de-ai-craft 手册）— 结构层手术 + 声音层 + 人称适配（"我"→"你/我们"），详见 andiii-writing-style/references/de-ai-craft.md
+   → **文字质检门（2026-08-06 接入）**: 正文定稿后跑 `python D:/tools/hermes/skills/writing/human-writing/scripts/check_prose.py <稿件.md>`（也支持 stdin: `... -`）— 硬禁令（冒号非引语/破折号/翻案腔/黑话/模型路标）**清零才交稿**；WARN 项（排比/句长CV/连词密度）人工判断。skill 本体 human-writing（KKKKhazix 981⭐ MIT，材料闸门/说话位置/forum-prose 正文法）用于长帖/知乎/叙事类强素材稿件
    → 输出带 frontmatter 的 .md 文件
    → 正文定稿后: 挑 1-2 句最有嚼劲的原句（≤20字, 不得编造/改写）→ andiii-image-style 编译金句卡 prompt → 质检 → 生成 1:1 金句卡 → 插入文末「就到这里，下次见。」之前
     ↓
