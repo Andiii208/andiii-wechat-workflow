@@ -7,6 +7,29 @@ set -e
 REPO_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 HERMES_SKILLS="/d/tools/hermes/skills/creative"
 
+# 🔴 mtime 守卫（2026-08-06 事故后加）：仓库→Hermes 单向同步只允许"仓库更新"覆盖。
+#   若 Hermes 副本比仓库新（Hermes 是活文档、内容未推回仓库），跳过并告警——否则会静默丢教训。
+#   用法同 cp：guarded_cp <src> <dst>
+guarded_cp() {
+  local src="$1" dst="$2"
+  if [ ! -f "$src" ]; then
+    echo "⚠️  跳过（仓库无此文件）: $src"
+    return 0
+  fi
+  # 内容一致 → 无事发生
+  if [ -f "$dst" ] && cmp -s "$src" "$dst"; then
+    return 0
+  fi
+  # 内容不一致且 Hermes 副本比仓库新 → 疑似未推回的活文档，拦截
+  if [ -f "$dst" ] && [ "$dst" -nt "$src" ]; then
+    echo "🔴 跳过（Hermes 副本比仓库新，疑似未推回的活文档）: $dst"
+    echo "   处理：先 diff 确认 Hermes 独有内容 → 反向同步进仓库 → 再跑本脚本"
+    return 1
+  fi
+  cp "$src" "$dst"
+  return 0
+}
+
 ENGINES=(andiii-image-style andiii-zine-style andiii-heytear-style andiii-sketchy-style andiii-minimal-style)
 
 for ENG in "${ENGINES[@]}"; do
@@ -19,7 +42,7 @@ for ENG in "${ENGINES[@]}"; do
   fi
   mkdir -p "$DST" "$DST/scripts" "$DST/references"
 
-  cp "$SRC/SKILL.md" "$DST/SKILL.md" 2>/dev/null || true
+  guarded_cp "$SRC/SKILL.md" "$DST/SKILL.md" || true
   [ -d "$SRC/scripts" ] && cp "$SRC/scripts/"*.py "$DST/scripts/" 2>/dev/null || true
   [ -d "$SRC/references" ] && cp "$SRC/references/"*.md "$DST/references/" 2>/dev/null || true
 
@@ -30,7 +53,7 @@ done
 DEAIC_SRC="$REPO_ROOT/references/de-ai-craft.md"
 DEAIC_DST="/d/tools/hermes/skills/writing/andiii-writing-style/references/de-ai-craft.md"
 if [ -f "$DEAIC_SRC" ]; then
-  cp "$DEAIC_SRC" "$DEAIC_DST"
+  guarded_cp "$DEAIC_SRC" "$DEAIC_DST"
   echo "✅ de-ai-craft.md → Hermes (andiii-writing-style)"
 fi
 
@@ -45,7 +68,7 @@ declare -A REF_MAP=(
 )
 for REF in "${!REF_MAP[@]}"; do
   if [ -f "$REPO_ROOT/references/$REF" ]; then
-    cp "$REPO_ROOT/references/$REF" "${REF_MAP[$REF]}"
+    guarded_cp "$REPO_ROOT/references/$REF" "${REF_MAP[$REF]}"
     echo "✅ $REF → Hermes"
   fi
 done
@@ -53,9 +76,9 @@ done
 # 写作层 skill 本体（仓库为主副本 → Hermes skills 目录，2026-08-04 起纳入）
 mkdir -p "/d/tools/hermes/skills/writing/andiii-writing-style/references" \
          "/d/tools/hermes/skills/productivity/wechat-content-automation/references"
-cp "$REPO_ROOT/skills/andiii-writing-style/SKILL.md" "/d/tools/hermes/skills/writing/andiii-writing-style/SKILL.md"
+guarded_cp "$REPO_ROOT/skills/andiii-writing-style/SKILL.md" "/d/tools/hermes/skills/writing/andiii-writing-style/SKILL.md"
 [ -d "$REPO_ROOT/skills/andiii-writing-style/references" ] && cp "$REPO_ROOT/skills/andiii-writing-style/references/"*.md "/d/tools/hermes/skills/writing/andiii-writing-style/references/" 2>/dev/null || true
-cp "$REPO_ROOT/skills/wechat-content-automation/SKILL.md" "/d/tools/hermes/skills/productivity/wechat-content-automation/SKILL.md"
+guarded_cp "$REPO_ROOT/skills/wechat-content-automation/SKILL.md" "/d/tools/hermes/skills/productivity/wechat-content-automation/SKILL.md"
 [ -d "$REPO_ROOT/skills/wechat-content-automation/references" ] && cp "$REPO_ROOT/skills/wechat-content-automation/references/"*.md "/d/tools/hermes/skills/productivity/wechat-content-automation/references/" 2>/dev/null || true
 echo "✅ 写作层 skill → Hermes (andiii-writing-style + wechat-content-automation)"
 
