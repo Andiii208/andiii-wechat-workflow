@@ -1,7 +1,7 @@
 ---
 name: andiii-writing-style
 description: Andiii碎碎念公众号的完整写作风格指南。基于槽边往事、MorningRocks、我要WhatYouNeed、杂乱无章、L先生说、新世相 的文风蒸馏。支持双模式写作体系（个人感悟/知识输出），含风格路由表、写作步骤、自检清单。
-version: 1.1.0
+version: 1.2.0
 created_by: agent
 tags:
   - writing

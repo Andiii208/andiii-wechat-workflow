@@ -1,14 +1,14 @@
 ---
 name: andiii-image-style
 description: Andiii碎碎念公众号配图风格引擎 — 手绘水彩风（纸纹/笔触/晕染）。生成封面（16:9 首图 + 1:1 分享图双尺寸）、内文配图、文末金句卡前必须加载本 skill，按四件套引擎（色彩/纹理/规避 + 可选文字排版）编译四段式 prompt，过质检门后再送图生后端。触发词：封面、配图、金句卡、水彩、生成图、公众号配图。
-version: 1.0.0
+version: 1.5.0
 author: Andiii208
 license: MIT
 tags: [image-generation, watercolor, wechat, poster, style-engine]
 related_skills: [wechat-content-automation, baoyu-cover-image, baoyu-article-illustrator, baoyu-image-gen]
 ---
 
-# Andiii 水彩风格引擎 v1.0
+# Andiii 水彩风格引擎 v1.5
 
 把用户的主题/句子/情绪编译成**手绘水彩风**的图生 prompt（封面/内文配图/金句卡），生成对应栅格图。
 
