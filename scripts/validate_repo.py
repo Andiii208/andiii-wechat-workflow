@@ -42,6 +42,8 @@ def check_links():
             target = m.group(1).strip()
             if not target or target.startswith(("http://", "https://", "//", "#", "mailto:", "data:")):
                 continue
+            if not re.search(r"[A-Za-z0-9\u4e00-\u9fff]", target):
+                continue  # 纯符号目标（如 `![](...)` 语法占位符）
             if re.match(r"^[A-Za-z]:[\\/]", target):  # Windows 绝对路径 D:/...
                 continue
             if re.match(r"^/[a-z]/", target):  # MSYS 路径 /d/...
