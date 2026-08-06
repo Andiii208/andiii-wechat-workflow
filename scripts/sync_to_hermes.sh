@@ -56,7 +56,10 @@ guarded_cp() {
     return 1
   fi
   if [ -f "$dst" ]; then
-    cp -p "$dst" "$BACKUP_DIR/" 2>/dev/null || true
+    # 备份保留相对路径结构，防同名文件（多引擎 SKILL.md）互相覆盖
+    rel="${dst#"$HERMES_HOME"/}"
+    mkdir -p "$BACKUP_DIR/$(dirname "$rel")"
+    cp -p "$dst" "$BACKUP_DIR/$rel" 2>/dev/null || true
   fi
   if ! cp "$src" "$dst"; then
     echo "🔴 拷贝失败: $src → $dst" >&2
@@ -119,7 +122,7 @@ for ENG in "${VISUAL_ENGINES[@]}"; do
         FAILED=1
         continue
       fi
-      cp -p "$stale" "$BACKUP_DIR/" 2>/dev/null || true
+      cp -p "$stale" "$BACKUP_DIR/$rel" 2>/dev/null || true
       rm -f "$stale"
       echo "🗑  清理陈旧文件: $rel（已备份）"
     done < <(find "$DST" -type f \( -name "*.md" -o -name "*.py" \) 2>/dev/null)

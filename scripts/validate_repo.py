@@ -100,7 +100,7 @@ def check_secrets():
 
 
 # ---- 4. frontmatter version 格式 ----
-FRONT_RE = re.compile(r"^---\n(.*?)\n---", re.S | re.M)
+FRONT_RE = re.compile(r"^---[ \t]*\r?\n(.*?)\r?\n---", re.S | re.M)
 VERSION_RE = re.compile(r"^\s*version\s*:\s*(\d+\.\d+\.\d+)\s*$", re.M)
 
 
