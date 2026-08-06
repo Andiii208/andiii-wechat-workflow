@@ -133,5 +133,5 @@ P4 CRT 信号与规避: [情绪词], 密集扫描线+[噪点/荧光辉光/信号
 ## 上游署名
 
 - 本引擎适配自 [TaiT-tt/tait-crt-interface-skill](https://github.com/TaiT-tt/tait-crt-interface-skill)（MIT 风格开源，约 77⭐）
-- 上游完整拆解存档：`ai-image-style-engine/references/tait-crt-interface.md`（色卡/14 轴变化引擎/质量门槛全文）
+- 上游完整拆解存档：`references/tait-crt-interface.md`（色卡/14 轴变化引擎/质量门槛全文）
 - 核心机制保留：色卡登记、全局像素网格、棋盘格中间调、CRT 信号面、后处理兜底；剥离：Codex 内置图生图依赖、强制第三方署名
