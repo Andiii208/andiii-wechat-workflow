@@ -16,6 +16,7 @@
 | L先生说风（焦虑/拖延/自律/方法论） | 石墨极简 | `andiii-minimal-style` | ✅ 已建（2026-08-03） |
 | 喜茶风（新中式/茶饮/生活美学） | 新中式茶饮（米白/茶色/水墨/印章） | `andiii-heytear-style` | ✅ 已建（2026-08-03 子 agent 蒸馏） |
 | 潦草风（手账/随性/涂鸦） | 涂鸦手账 / sketchy | `andiii-sketchy-style` | ✅ 已建（2026-08-03 子 agent 蒸馏） |
+| CRT 复古（科技怀旧/极客/游戏/像素/数码回忆） | 复古 CRT 电脑界面（像素壁纸+悬浮视窗+扫描线） | `andiii-crt-style` | ✅ 已建（2026-08-06，TaiT-tt/tait-crt-interface-skill 文生图版适配） |
 | 观点/评论/深度随笔（黑白编辑插画感/克制叙事/讽刺） | 黑白针管笔线条（relaxed black-pen） | `antibes-holiday` | ✅ 已装（2026-08-06，haorantang97/antibes-holiday 195⭐，MIT） |
 | 教程/清单/盘点 | 信息图 / 示意图 | ⚠️ **不走 AI 生图**（生图文字乱码）——用 gzh-design 排版组件或 HTML/SVG | 备注 |
 
