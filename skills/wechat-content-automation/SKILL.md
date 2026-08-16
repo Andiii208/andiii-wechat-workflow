@@ -87,6 +87,7 @@ related_skills:
        → 产物: {名}_排版_{主题}({id}).html + _预览.html (人工兜底)
    → ③b 推送层: baoyu-post-to-wechat (wechat-api.ts, HTML 输入分支)
        → 自动上传正文图片 (uploadImagesInHtml) + 封面图
+       → ⚠️ 正文含 .gif 时先跑 `python scripts/upload_gif.py <anim.gif> --html <排版.html>` 上传替换（wechat-api.ts 会把 gif 转静态帧），见 references/hot-topic-transcription-workflow.md
        → 创建草稿箱 (draft/add) — 已实测 (2026-08-03): span leaf 样式经 API 路径保留 ✅
     ↓
 用户: 公众号助手 App → 草稿箱 → 点发布

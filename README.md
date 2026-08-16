@@ -44,6 +44,8 @@
 | 排版引擎 | `skills/gzh-design-skill/` | gzh-design 装配快照（上游 isjiamu/gzh-design-skill + 本地定制 6 套主题库 + validate 脚本；AGPL-3.0 见 NOTICE.md） |
 | 主链路编排 | `skills/wechat-content-automation/` | 全流程编排 skill（写作→配图→排版→推送，本仓库内） |
 | 同步脚本 | `scripts/sync_to_hermes.sh` | 仓库→Hermes 单向部署（自动备份/内容校验/陈旧文件清理，改完仓库必跑） |
+| 反向推回 | `scripts/push_back_to_repo.sh` | Hermes→仓库 活文档推回（默认只读扫描，`--apply` 备份后落盘） |
+| GIF 上传 | `scripts/upload_gif.py` | GIF 正文图直传微信（绕开 wechat-api 的 gif→静态转换，见 hot-topic 文档） |
 
 > 生成产物（图片/HTML）不入库（见 .gitignore）；引擎测试样例在 `outputs/` 本地保留。
 

@@ -15,9 +15,9 @@
 
 ### GIF 正文图会被转静态（wechat-api.ts 限制）
 - `wechat-image-processor.ts` 的 `WECHAT_BODY_IMAGE_UNSUPPORTED_FORMATS` 含 `.gif`，上传时转静态帧（日志 `converted unsupported .gif source`），动图丢失。
-- **绕开**：multipart POST `https://api.weixin.qq.com/cgi-bin/media/uploadimg?access_token=` 上传 gif（微信原生支持）→ 返回 mmbiz 长链 → 替换 HTML 里 gif src 为 URL → 再推送（脚本对远程 URL 透传，日志 `Processed 0`，动图保留）。
-- mmbiz URL 长期有效 → 固化进排版生成脚本，避免每次重生成后手动替换。
-- 上传 gif 也要在 Clash global 模式下做（同 40164 白名单问题）。
+- ✅ **2026-08-16 已固化为 `scripts/upload_gif.py`**：multipart 直传 `media/uploadimg`（微信原生支持 gif）→ mmbiz 长链 → 自动替换 HTML 里的 gif src。用法：`python scripts/upload_gif.py ./assets/anim.gif --html article_排版_x.html`（凭证读 ~/.baoyu-skills/.env，与推送同一套）。
+- mmbiz URL 长期有效；替换后推送时脚本对远程 URL 透传（日志 `Processed 0`），动图保留。
+- ⚠️ 上传 gif 也要在 Clash global 模式下做（同 40164 白名单问题）。
 
 ### 排版 section 未闭合 → 微信渲染缩窄
 - 章节标题组件 `<section>` 忘闭合 → 章节互相嵌套 → 微信端深层嵌套 section 宽度收缩（用户实测「04 05 明显比 01 02 03 窄」）。
