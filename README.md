@@ -41,6 +41,7 @@
 | 调研存档 | `references/learnings/` | design-image-studio anti-slop 等外部 skill 精华存档 |
 | 方案文档 | `plans/` | 风格引擎化改造完整实施方案 |
 | 排版路由 | `references/theme-routing.md` | gzh-design 主题路由（留白禅意/石墨极简/摸鱼绿…+ 档位） |
+| 排版引擎 | `skills/gzh-design-skill/` | gzh-design 装配快照（上游 isjiamu/gzh-design-skill + 本地定制 6 套主题库 + validate 脚本；AGPL-3.0 见 NOTICE.md） |
 | 主链路编排 | `skills/wechat-content-automation/` | 全流程编排 skill（写作→配图→排版→推送，本仓库内） |
 | 同步脚本 | `scripts/sync_to_hermes.sh` | 仓库→Hermes 单向部署（自动备份/内容校验/陈旧文件清理，改完仓库必跑） |
 
@@ -48,10 +49,9 @@
 
 ## 依赖（Hermes skills）
 
-**本仓库内**（随仓库同步部署）：`andiii-writing-style`、`wechat-content-automation`、五个 andiii-* 视觉引擎。
+**本仓库内**（随仓库同步部署）：`andiii-writing-style`、`wechat-content-automation`、`gzh-design-skill`（AGPL 装配快照）、五个 andiii-* 视觉引擎。
 
 **外部运行依赖**（Hermes 侧安装，本仓库仅路由引用）：
-- `gzh-design` — 排版（AGPL-3.0）
 - `baoyu-post-to-wechat` / `baoyu-cover-image` / `baoyu-article-illustrator` — 推送与配图调度（baoyu-skills，MIT）
 - `antibes-holiday` — 黑白针管笔引擎（MIT）
 - `human-writing`（check_prose.py 文字质检门，MIT）+ `humanizer`（去 AI 味）

@@ -8,17 +8,17 @@
 
 ## 许可证边界声明
 
-本仓库是「工作流规则 + 脚本」仓库，不复制任何上游项目的完整代码进本仓库：
+本仓库是「工作流规则 + 脚本」仓库。**唯一例外**：`skills/gzh-design-skill/` 为 gzh-design-skill 上游（AGPL-3.0）的**完整装配快照**（含本地定制主题库），以 AGPL-3.0 许可随本仓库分发（快照内含上游 LICENSE 文件）——目的：换机/重装时排版引擎可单仓库恢复，不依赖上游可达性。
 
-- **运行依赖**（gzh-design、baoyu-*、antibes-holiday 等）通过 Hermes skills 系统**外部加载**，本仓库仅路由引用，不包含其代码。
-- 若未来复制或修改了 AGPL 组件的代码，对应文件必须按 AGPL-3.0 要求处理，并在本文件登记。
+- **运行依赖**（baoyu-*、antibes-holiday 等）通过 Hermes skills 系统**外部加载**，本仓库仅路由引用，不包含其代码。
+- **AGPL 例外登记**：`skills/gzh-design-skill/` 复制了 AGPL-3.0 组件代码（完整快照），按 AGPL-3.0 要求处理：快照内保留上游 LICENSE；本地定制文件（SKILL.md、references/theme-*.md 六套主题库）修改自上游，随快照一并公开（本仓库即开源分发）；若未来再复制或修改 AGPL 组件，在本文件持续登记。
 - 文风蒸馏样本仅保留**风格特征分析和短引用**，不保存完整文章副本。
 
 ## 上游与第三方内容清单
 
 | 上游项目 | 来源 | 用途 | 许可证 | 本仓库使用方式 |
 |---|---|---|---|---|
-| gzh-design-skill | github.com/isjiamu/gzh-design-skill | 微信公众号排版引擎（theme-routing 路由） | AGPL-3.0 | 外部运行依赖，仅路由引用 |
+| gzh-design-skill | github.com/isjiamu/gzh-design-skill | 微信公众号排版引擎（theme-routing 路由） | AGPL-3.0 | **完整装配快照入仓**（`skills/gzh-design-skill/`，含本地定制 SKILL.md + 6 套主题库），随仓库 AGPL-3.0 分发 |
 | baoyu-skills | github.com/JimLiu/baoyu-skills | baoyu-post-to-wechat / baoyu-cover-image / baoyu-article-illustrator / baoyu-image-gen | MIT | 外部运行依赖，仅路由引用 |
 | muted-zine-poster-v01 | github.com/moonlin1213/muted-zine-poster-v01 | Zine 拼贴引擎风格参考 | MIT | 风格参考与适配 |
 | gc-minimal-zine-poster | github.com/LiamGvchi/gc-minimal-zine-poster | 石墨极简 zine 风格参考 | MIT | 风格参考 |

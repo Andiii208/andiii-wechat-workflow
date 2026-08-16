@@ -169,6 +169,28 @@ if [ -d "$WCA_SRC/references" ]; then
 fi
 echo "✅ wechat-content-automation → Hermes"
 
+# gzh-design-skill（productivity/ 分类，排版引擎；本仓库为装配快照，含本地定制主题库）
+GZH_SRC="$REPO_ROOT/skills/gzh-design-skill"
+GZH_DST="$HERMES_HOME/skills/productivity/gzh-design-skill"
+mkdir -p "$GZH_DST/references" "$GZH_DST/scripts" "$GZH_DST/assets"
+guarded_cp "$GZH_SRC/SKILL.md" "$GZH_DST/SKILL.md" || true
+if [ -d "$GZH_SRC/references" ]; then
+  for f in "$GZH_SRC/references/"*.md; do
+    [ -f "$f" ] && guarded_cp "$f" "$GZH_DST/references/$(basename "$f")" || true
+  done
+fi
+if [ -d "$GZH_SRC/scripts" ]; then
+  for f in "$GZH_SRC/scripts/"*.py; do
+    [ -f "$f" ] && guarded_cp "$f" "$GZH_DST/scripts/$(basename "$f")" || true
+  done
+fi
+if [ -d "$GZH_SRC/assets" ]; then
+  for f in "$GZH_SRC/assets/"*.html "$GZH_SRC/assets/"*.md; do
+    [ -f "$f" ] && guarded_cp "$f" "$GZH_DST/assets/$(basename "$f")" || true
+  done
+fi
+echo "✅ gzh-design-skill → Hermes"
+
 # ---- 4. 最终复核：仓库 vs Hermes 逐文件 cmp（仅覆盖仓库声明的文件）----
 echo "== 复核中… =="
 MISMATCH=0
@@ -190,6 +212,13 @@ for REF in "${!REF_MAP[@]}"; do
 done
 verify "$REPO_ROOT/skills/andiii-writing-style/SKILL.md" "$HERMES_HOME/skills/writing/andiii-writing-style/SKILL.md"
 verify "$WCA_SRC/SKILL.md" "$WCA_DST/SKILL.md"
+verify "$GZH_SRC/SKILL.md" "$GZH_DST/SKILL.md"
+if [ -d "$GZH_SRC/references" ]; then
+  for f in "$GZH_SRC/references/"*.md; do [ -f "$f" ] && verify "$f" "$GZH_DST/references/$(basename "$f")"; done
+fi
+if [ -d "$GZH_SRC/scripts" ]; then
+  for f in "$GZH_SRC/scripts/"*.py; do [ -f "$f" ] && verify "$f" "$GZH_DST/scripts/$(basename "$f")"; done
+fi
 
 # ---- 5. 汇总 ----
 echo ""

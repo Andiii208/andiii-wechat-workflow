@@ -44,6 +44,12 @@ def check_links():
                 continue
             if not re.search(r"[A-Za-z0-9\u4e00-\u9fff]", target):
                 continue  # 纯符号目标（如 `![](...)` 语法占位符）
+            # 文档语法示例占位符（组件库/README 常用）：图片/URL/src/xxx.gif 等
+            if re.fullmatch(r"(图片|URL|url|src|href|xxx[\w.\-]*)", target):
+                continue
+            # GitHub 模板相对链接（issues/new、pull/new，仓库内无此路径但 GitHub 有效）
+            if re.search(r"(issues|pull)/new", target):
+                continue
             if re.match(r"^[A-Za-z]:[\\/]", target):  # Windows 绝对路径 D:/...
                 continue
             if re.match(r"^/[a-z]/", target):  # MSYS 路径 /d/...
