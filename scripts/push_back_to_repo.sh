@@ -88,7 +88,7 @@ for pair in "${DIR_PAIRS[@]}"; do
     sub="${rf#"$rtdir"/}"                    # 目录内相对路径（SKILL.md / references/x.md）
     rel="${rf#"$HERMES_HOME"/}"              # runtime 侧相对路径（skills/creative/…）
     scan_candidate "$rf" "$repodir/$sub" "$rel"
-  done < <(find "$rtdir" -type f \( -name "*.md" -o -name "*.py" -o -name "*.sh" \) -not -path "*/archive/*" -not -path "*/.git/*" 2>/dev/null)
+  done < <(find "$rtdir" -type f \( -name "*.md" -o -name "*.py" -o -name "*.sh" \) -not -path "*/archive/*" -not -path "*/.git/*" -not -path "*/.github/*" 2>/dev/null)
 done
 
 # 单文件对
