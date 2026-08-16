@@ -43,6 +43,20 @@ jobs:
           python -m py_compile scripts/validate_repo.py
           python -m py_compile skills/andiii-image-style/scripts/crop_image.py
           python -m py_compile skills/andiii-image-style/scripts/check_engine_prompt.py
+          python -m py_compile skills/gzh-design-skill/scripts/validate_gzh_html.py
+          python -m py_compile skills/gzh-design-skill/scripts/component_lint.py
+          python -m py_compile skills/gzh-design-skill/scripts/wrap_preview.py
+          python -m py_compile skills/gzh-design-skill/scripts/extract_docx.py
+      - name: gzh-design 校验器冒烟测试（标签平衡/禁用项三态）
+        run: |
+          set +e
+          printf '<section><p><span leaf="">你好</span></p></section>' | python skills/gzh-design-skill/scripts/validate_gzh_html.py --stdin > /dev/null 2>&1
+          [ $? -eq 0 ] || { echo "平衡 HTML 应通过"; exit 1; }
+          printf '<section><p><span leaf="">你好</span></p>' | python skills/gzh-design-skill/scripts/validate_gzh_html.py --stdin > /dev/null 2>&1
+          [ $? -eq 1 ] || { echo "未闭合 section 应报 ERROR"; exit 1; }
+          printf '<div><span leaf="">你好</span></div>' | python skills/gzh-design-skill/scripts/validate_gzh_html.py --stdin > /dev/null 2>&1
+          [ $? -eq 1 ] || { echo "禁用 div 应报 ERROR"; exit 1; }
+          echo "gzh-design smoke test PASS"
       - name: 质检门冒烟测试（PASS/WARN/FAIL 三态 + JSON）
         run: |
           set +e

@@ -21,9 +21,8 @@
 
 ### 排版 section 未闭合 → 微信渲染缩窄
 - 章节标题组件 `<section>` 忘闭合 → 章节互相嵌套 → 微信端深层嵌套 section 宽度收缩（用户实测「04 05 明显比 01 02 03 窄」）。
-- `validate_gzh_html.py` 只查 span leaf 和禁用项，**查不出标签不平衡**。
-- 交付前自检：`html.count('<section') == html.count('</section>')` + 栈解析（regex 扫 `<section[^>]*>|</section>` 压栈，未闭合为 0）。
-- 修复模式：章节标题返回"开始+标题区"，每章内容结束后 `body.append('</section>')`；多次修复后必须重新生成并跑栈验证。
+- ✅ **2026-08-16 已固化进 validate_gzh_html.py**：新增 `check_balance()` 栈解析（section/p/span/strong/em/h3/blockquote 开闭平衡 + 交叉嵌套检测），不平衡即 ERROR——不再只靠人工自检。
+- 交付前仍可手动跑 `python validate_gzh_html.py <file.html>` 确认 0 ERROR；修复模式：章节标题返回"开始+标题区"，每章内容结束后 `body.append('</section>')`；多次修复后必须重新生成并跑栈验证。
 
 ### 同人图素材源（用户拍板：用别人画的 DeepSeek 同人图）
 - **dsh-deep-whale**（Small-tailqwq，626⭐）— DSH 鲸鱼娘皮肤「深海女仆工坊」：`maid-atelier/assets/` 有高清女仆鲸鱼娘立绘（maid-left/maid-right）+ 宫殿背景（palace-day/night）。**CC BY-NC-SA 4.0**，署名链：原作 上善（Pixiv/B站 上善无形）、二次设计 ZipZipPipe（拉链管道）——公众号用需文末署名 + 非商业用途。

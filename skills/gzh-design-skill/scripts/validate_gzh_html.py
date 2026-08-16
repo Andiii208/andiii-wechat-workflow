@@ -45,6 +45,43 @@ ASCII_QUOTE = re.compile(r"[\"']")
 # 代码区特征：等宽字体或 white-space:pre —— 其内半角符号是正常的
 CODE_STYLE = re.compile(r"monospace|white-space\s*:\s*pre|courier|consolas|sf mono", re.I)
 
+# 必须开闭平衡的标签（gzh-design 产物用到的容器/文本标签）
+# 2026-08-16 实测：章节 <section> 忘闭合 → 章节互相嵌套 → 微信端深层嵌套宽度收缩（04/05 明显比 01 窄）
+BALANCE_TAGS = ("section", "p", "span", "strong", "em", "h3", "blockquote")
+TAG_RE = re.compile(r"<(/?)(section|p|span|strong|em|h3|blockquote)([^>]*)>", re.I)
+
+
+def check_balance(html):
+    """栈解析标签开闭平衡，返回问题列表（空 = 平衡）。
+
+    检测两类问题：
+      1. 未闭合/多余闭合（如章节 <section> 忘记 </section>）
+      2. 交叉嵌套（<section><p>…</section></p> 之类错位）
+    """
+    stack, problems = [], []
+    for m in TAG_RE.finditer(html):
+        closing, tag, attrs = m.group(1), m.group(2).lower(), m.group(3)
+        if not closing and attrs.rstrip().endswith("/"):
+            continue  # 自闭合（<img/> 类不在此标签集，防御性保留）
+        if closing:
+            if not stack:
+                problems.append(f"多余的闭合标签 </{tag}>（偏移 {m.start()}）")
+            elif stack[-1] == tag:
+                stack.pop()
+            else:
+                problems.append(
+                    f"交叉嵌套：期望闭合 <{stack[-1]}>，遇到 </{tag}>（偏移 {m.start()}）")
+                # 容错：弹到匹配位置，继续检查后续
+                for i in range(len(stack) - 1, -1, -1):
+                    if stack[i] == tag:
+                        del stack[i:]
+                        break
+        else:
+            stack.append(tag)
+    if stack:
+        problems.append(f"未闭合标签: {' > '.join(f'<{t}>' for t in stack)}")
+    return problems
+
 
 class LeafChecker(HTMLParser):
     """检查每个非空文本节点是否处于 <span leaf> 内。"""
@@ -98,6 +135,10 @@ class LeafChecker(HTMLParser):
 
 def validate(html, name="<input>"):
     errors, warnings = [], []
+
+    # 标签开闭平衡（2026-08-16 接入：section 未闭合 → 微信端嵌套渲染缩窄）
+    for prob in check_balance(html):
+        errors.append(f"标签不平衡: {prob}")
 
     for rx, level, msg in FORBIDDEN:
         hits = len(rx.findall(html))
