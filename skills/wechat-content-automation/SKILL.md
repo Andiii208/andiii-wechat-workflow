@@ -68,7 +68,8 @@ related_skills:
    → 正文定稿后: 挑 1-2 句最有嚼劲的原句（≤20字, 不得编造/改写）→ **金句默认用 gzh-design 排版金句块（组件 8a 细线+衬线大字，2026-08-04 用户拍板：图片金句卡两次被否「很丑」；不加「摘自xxx」说明）** → 插入文末「就到这里，下次见。」之前
     ↓
 ② 配图层 (可选): 
-   → **先路由后选引擎（2026-08-03）**：查 `references/image-style-routing.md`（配图风格路由表）→ 按文章文风定配图风格 → 加载对应引擎：
+   → **图源三问（2026-08-19 起必做）**：查 `references/image-style-routing.md`「图源决策」章节——列全文意象块清单，逐块过三问（本体/功能/素材）分轨：意象本体在现实里 → 真实图轨（网上找图，走 `references/real-image-collection.md` 渠道库）；在内心 → AI 轨
+   → **AI 轨再路由风格（2026-08-03）**：查 `references/image-style-routing.md`（配图风格路由表）→ 按文章文风定配图风格 → 加载对应引擎：
        ✅ **本地已有副本**（2026-08-04 已落盘）——权威源在 GitHub 仓库 Andiii208/andiii-wechat-workflow/references/image-style-routing.md，本地副本由 sync 脚本维护；若怀疑过时，用 MCP `mcp__github__get_file_contents`(owner=Andiii208, repo=andiii-wechat-workflow, path=references/image-style-routing.md) 对比
        andiii-image-style（手绘水彩） / andiii-zine-style（Zine 拼贴） / andiii-sketchy-style（潦草手账） / andiii-minimal-style（石墨极简） / andiii-heytear-style（喜茶拙趣） / antibes-holiday（黑白针管笔, 2026-08-06 装）
    → 引擎流程: 编译四段式 prompt → 质检门 `check_engine_prompt.py`（PASS 才允许生成）
