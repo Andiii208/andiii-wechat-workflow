@@ -44,8 +44,13 @@ jobs:
         run: |
           python -m py_compile scripts/validate_repo.py
           python -m py_compile scripts/upload_gif.py
+          python -m py_compile scripts/clean_lesson2.py
+          python -m py_compile scripts/sync_theme_routing_fix.py
           python -m py_compile skills/andiii-image-style/scripts/crop_image.py
           python -m py_compile skills/andiii-image-style/scripts/check_engine_prompt.py
+          python -m py_compile skills/andiii-crt-style/scripts/check_crt_prompt.py
+          python -m py_compile skills/andiii-crt-style/scripts/finalize_crt.py
+          python -m py_compile skills/ai-image-style-engine/scripts/batch_gate_check.py
           python -m py_compile skills/gzh-design-skill/scripts/validate_gzh_html.py
           python -m py_compile skills/gzh-design-skill/scripts/component_lint.py
           python -m py_compile skills/gzh-design-skill/scripts/wrap_preview.py

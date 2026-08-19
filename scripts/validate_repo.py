@@ -62,11 +62,19 @@ def check_links():
                 errors.append(f"[link] {md.relative_to(ROOT)}: `{target}` 不存在")
 
 
-# ---- 2. SKILL references 引用（本地或顶层任一存在即可）----
+# ---- 2. SKILL references 引用（本地 / 顶层 / 仓库任意 skill 任一存在即可）----
 REF_RE = re.compile(r"references/([A-Za-z0-9_.\-]+\.md)")
 
 
 def check_refs():
+    # 全仓库 references 文件名索引（含各 skill 本地 references/ 与顶层 references/）
+    all_refs = {f.name for f in (ROOT / "references").glob("*.md") if f.is_file()}
+    for sk_dir in (ROOT / "skills").iterdir():
+        if not sk_dir.is_dir():
+            continue
+        rdir = sk_dir / "references"
+        if rdir.is_dir():
+            all_refs.update(f.name for f in rdir.glob("*.md") if f.is_file())
     for sk in (ROOT / "skills").glob("*/SKILL.md"):
         try:
             text = sk.read_text(encoding="utf-8")
@@ -74,12 +82,10 @@ def check_refs():
             continue
         for m in REF_RE.finditer(text):
             fname = m.group(1)
-            local = sk.parent / "references" / fname
-            top = ROOT / "references" / fname
-            if not local.exists() and not top.exists():
+            if fname not in all_refs:
                 errors.append(
                     f"[ref] {sk.relative_to(ROOT)}: references/{fname} 不存在"
-                    "（skill 本地与顶层 references/ 均无）"
+                    "（全仓库 references/ 均无）"
                 )
 
 

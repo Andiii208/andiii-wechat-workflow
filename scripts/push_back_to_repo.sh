@@ -33,11 +33,12 @@ fi
 CANDIDATES=()
 
 # ---- 收集反向映射对 (runtime 路径, 仓库相对路径) ----
-# 整目录对（写作层 / 主链路 / 排版引擎）
+# 整目录对（写作层 / 主链路 / 排版引擎 / 聚合引擎母版）
 DIR_PAIRS=(
   "skills/writing/andiii-writing-style:skills/andiii-writing-style"
   "skills/productivity/wechat-content-automation:skills/wechat-content-automation"
   "skills/productivity/gzh-design-skill:skills/gzh-design-skill"
+  "skills/creative/ai-image-style-engine:skills/ai-image-style-engine"
 )
 # 顶层参考注入的反向（单文件对）
 FILE_PAIRS=(
@@ -45,6 +46,7 @@ FILE_PAIRS=(
   "skills/productivity/wechat-content-automation/references/theme-routing.md:references/theme-routing.md"
   "skills/writing/andiii-writing-style/references/de-ai-craft.md:references/de-ai-craft.md"
   "skills/creative/ai-image-style-engine/references/design-reasoning.md:references/design-reasoning.md"
+  "skills/creative/ai-image-style-engine/references/learnings/design-image-studio-anti-slop.md:references/learnings/design-image-studio-anti-slop.md"
 )
 # 顶层注入目标在 runtime 的副本路径（整目录扫描时跳过，避免误报"仓库缺失"）
 INJECTED=(
@@ -52,6 +54,7 @@ INJECTED=(
   "skills/productivity/wechat-content-automation/references/image-style-routing.md"
   "skills/productivity/wechat-content-automation/references/theme-routing.md"
   "skills/creative/ai-image-style-engine/references/design-reasoning.md"
+  "skills/creative/ai-image-style-engine/references/learnings/design-image-studio-anti-slop.md"
 )
 
 # 视觉引擎自动发现（与 sync_to_hermes.sh 一致）
@@ -88,7 +91,7 @@ for pair in "${DIR_PAIRS[@]}"; do
     sub="${rf#"$rtdir"/}"                    # 目录内相对路径（SKILL.md / references/x.md）
     rel="${rf#"$HERMES_HOME"/}"              # runtime 侧相对路径（skills/creative/…）
     scan_candidate "$rf" "$repodir/$sub" "$rel"
-  done < <(find "$rtdir" -type f \( -name "*.md" -o -name "*.py" -o -name "*.sh" \) -not -path "*/archive/*" -not -path "*/.git/*" -not -path "*/.github/*" 2>/dev/null)
+  done < <(find "$rtdir" -type f \( -name "*.md" -o -name "*.py" -o -name "*.sh" -o -name "*.html" \) -not -path "*/archive/*" -not -path "*/.git/*" -not -path "*/.github/*" 2>/dev/null)
 done
 
 # 单文件对

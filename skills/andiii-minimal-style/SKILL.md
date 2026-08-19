@@ -59,7 +59,7 @@ P4 氛围与规避: 理性、克制、留白、秩序感, 避免[水彩晕染/�
 
 ## 四、工作流
 
-0. **设计推理（必做，≤60秒）**：读 `D:/tools/andiii-wechat-workflow/references/design-reasoning.md`，按 6 项模板作答（用途渠道/受众气质/视觉系统/主次层级/留白决策/方向承诺）——先定「为什么这么画」，再动手编译。
+0. **设计推理（必做，≤60秒）**：读 `../ai-image-style-engine/references/design-reasoning.md`（Hermes 注入副本；仓库权威源为顶层 `references/design-reasoning.md`），按 6 项模板作答（用途渠道/受众气质/视觉系统/主次层级/留白决策/方向承诺）——先定「为什么这么画」，再动手编译。
 1. 转译主题 → 选变体配方 → 四段式编译（P2 隐喻自由发挥）
 2. **质检门**：`echo "prompt" | python D:/tools/hermes/skills/creative/andiii-image-style/scripts/check_engine_prompt.py`（PASS 才生成；本风格纹理词用 hairline/grid/fine grain/cross-hatch 等满足 ≥2 要求）
 3. **生成**：封面 16:9（宽松安全区约束句）→ 中心裁 2.35:1；分享图 1:1；内文配图 16:9；统一 .jpg

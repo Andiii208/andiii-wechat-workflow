@@ -88,6 +88,7 @@ declare -A REF_MAP=(
   ["image-style-routing.md"]="$HERMES_HOME/skills/productivity/wechat-content-automation/references/image-style-routing.md"
   ["theme-routing.md"]="$HERMES_HOME/skills/productivity/wechat-content-automation/references/theme-routing.md"
   ["de-ai-craft.md"]="$HERMES_HOME/skills/writing/andiii-writing-style/references/de-ai-craft.md"
+  ["learnings/design-image-studio-anti-slop.md"]="$HERMES_HOME/skills/creative/ai-image-style-engine/references/learnings/design-image-studio-anti-slop.md"
 )
 
 echo "== 视觉引擎: ${VISUAL_ENGINES[*]:-（无）} | 写作层: ${WRITING_SKILLS[*]:-（无）} =="
@@ -129,6 +130,25 @@ for ENG in "${VISUAL_ENGINES[@]}"; do
   fi
   echo "✅ $ENG → Hermes"
 done
+
+# ---- 1b. ai-image-style-engine（聚合引擎母版，非 andiii-* 前缀，单独整目录同步）----
+AIE_SRC="$REPO_ROOT/skills/ai-image-style-engine"
+AIE_DST="$HERMES_HOME/skills/creative/ai-image-style-engine"
+if [ -d "$AIE_SRC" ]; then
+  mkdir -p "$AIE_DST/scripts" "$AIE_DST/references"
+  guarded_cp "$AIE_SRC/SKILL.md" "$AIE_DST/SKILL.md" || true
+  if [ -d "$AIE_SRC/scripts" ]; then
+    for f in "$AIE_SRC/scripts/"*.py; do
+      [ -f "$f" ] && guarded_cp "$f" "$AIE_DST/scripts/$(basename "$f")" || true
+    done
+  fi
+  if [ -d "$AIE_SRC/references" ]; then
+    for f in "$AIE_SRC/references/"*.md; do
+      [ -f "$f" ] && guarded_cp "$f" "$AIE_DST/references/$(basename "$f")" || true
+    done
+  fi
+  echo "✅ ai-image-style-engine → Hermes"
+fi
 
 # ---- 2. 顶层参考注入 ----
 for REF in "${!REF_MAP[@]}"; do
@@ -188,6 +208,29 @@ if [ -d "$GZH_SRC/assets" ]; then
   for f in "$GZH_SRC/assets/"*.html "$GZH_SRC/assets/"*.md; do
     [ -f "$f" ] && guarded_cp "$f" "$GZH_DST/assets/$(basename "$f")" || true
   done
+  # assets/theme-previews/ 子目录（快照有、sync 曾漏——2026-08-20 修复）
+  if [ -d "$GZH_SRC/assets/theme-previews" ]; then
+    mkdir -p "$GZH_DST/assets/theme-previews"
+    for f in "$GZH_SRC/assets/theme-previews/"*.html; do
+      [ -f "$f" ] && guarded_cp "$f" "$GZH_DST/assets/theme-previews/$(basename "$f")" || true
+    done
+  fi
+fi
+# 顶层文档/许可（快照有、sync 曾漏——2026-08-20 修复：README/LICENSE/CONTRIBUTING/docs）
+for f in README.md README.en.md LICENSE CONTRIBUTING.md; do
+  [ -f "$GZH_SRC/$f" ] && guarded_cp "$GZH_SRC/$f" "$GZH_DST/$f" || true
+done
+if [ -d "$GZH_SRC/docs" ]; then
+  mkdir -p "$GZH_DST/docs"
+  for f in "$GZH_SRC/docs/"*.md; do
+    [ -f "$f" ] && guarded_cp "$f" "$GZH_DST/docs/$(basename "$f")" || true
+  done
+  if [ -d "$GZH_SRC/docs/gallery" ]; then
+    mkdir -p "$GZH_DST/docs/gallery"
+    for f in "$GZH_SRC/docs/gallery/"*.html "$GZH_SRC/docs/gallery/"*.md; do
+      [ -f "$f" ] && guarded_cp "$f" "$GZH_DST/docs/gallery/$(basename "$f")" || true
+    done
+  fi
 fi
 echo "✅ gzh-design-skill → Hermes"
 
@@ -207,17 +250,37 @@ for ENG in "${VISUAL_ENGINES[@]}"; do
   [ -d "$SRC/scripts" ] && for f in "$SRC/scripts/"*.py; do [ -f "$f" ] && verify "$f" "$DST/scripts/$(basename "$f")"; done
   [ -d "$SRC/references" ] && for f in "$SRC/references/"*.md; do [ -f "$f" ] && verify "$f" "$DST/references/$(basename "$f")"; done
 done
+if [ -d "$AIE_SRC" ]; then
+  verify "$AIE_SRC/SKILL.md" "$AIE_DST/SKILL.md"
+  [ -d "$AIE_SRC/scripts" ] && for f in "$AIE_SRC/scripts/"*.py; do [ -f "$f" ] && verify "$f" "$AIE_DST/scripts/$(basename "$f")"; done
+  [ -d "$AIE_SRC/references" ] && for f in "$AIE_SRC/references/"*.md; do [ -f "$f" ] && verify "$f" "$AIE_DST/references/$(basename "$f")"; done
+fi
 for REF in "${!REF_MAP[@]}"; do
   [ -f "$REPO_ROOT/references/$REF" ] && verify "$REPO_ROOT/references/$REF" "${REF_MAP[$REF]}"
 done
 verify "$REPO_ROOT/skills/andiii-writing-style/SKILL.md" "$HERMES_HOME/skills/writing/andiii-writing-style/SKILL.md"
+[ -d "$REPO_ROOT/skills/andiii-writing-style/references" ] && for f in "$REPO_ROOT/skills/andiii-writing-style/references/"*.md; do [ -f "$f" ] && verify "$f" "$HERMES_HOME/skills/writing/andiii-writing-style/references/$(basename "$f")"; done
 verify "$WCA_SRC/SKILL.md" "$WCA_DST/SKILL.md"
+[ -d "$WCA_SRC/references" ] && for f in "$WCA_SRC/references/"*.md; do [ -f "$f" ] && verify "$f" "$WCA_DST/references/$(basename "$f")"; done
 verify "$GZH_SRC/SKILL.md" "$GZH_DST/SKILL.md"
 if [ -d "$GZH_SRC/references" ]; then
   for f in "$GZH_SRC/references/"*.md; do [ -f "$f" ] && verify "$f" "$GZH_DST/references/$(basename "$f")"; done
 fi
 if [ -d "$GZH_SRC/scripts" ]; then
   for f in "$GZH_SRC/scripts/"*.py; do [ -f "$f" ] && verify "$f" "$GZH_DST/scripts/$(basename "$f")"; done
+fi
+if [ -d "$GZH_SRC/assets" ]; then
+  for f in "$GZH_SRC/assets/"*.html "$GZH_SRC/assets/"*.md; do [ -f "$f" ] && verify "$f" "$GZH_DST/assets/$(basename "$f")"; done
+  [ -f "$GZH_SRC/assets/theme-previews/theme-mono-blue-editorial.html" ] && verify "$GZH_SRC/assets/theme-previews/theme-mono-blue-editorial.html" "$GZH_DST/assets/theme-previews/theme-mono-blue-editorial.html"
+fi
+for f in README.md README.en.md LICENSE CONTRIBUTING.md; do
+  [ -f "$GZH_SRC/$f" ] && verify "$GZH_SRC/$f" "$GZH_DST/$f"
+done
+if [ -d "$GZH_SRC/docs" ]; then
+  for f in "$GZH_SRC/docs/"*.md; do [ -f "$f" ] && verify "$f" "$GZH_DST/docs/$(basename "$f")"; done
+  if [ -d "$GZH_SRC/docs/gallery" ]; then
+    for f in "$GZH_SRC/docs/gallery/"*.html "$GZH_SRC/docs/gallery/"*.md; do [ -f "$f" ] && verify "$f" "$GZH_DST/docs/gallery/$(basename "$f")"; done
+  fi
 fi
 
 # ---- 5. 汇总 ----
