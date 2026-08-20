@@ -31,11 +31,11 @@ git rev-list --all | while read c; do git grep -l "敏感串" $c -- . 2>/dev/nul
 
 ### 1c. git-filter-repo 重写全部历史
 - git-filter-repo 是 Python 包：`python3 -m git_filter_repo`（`git filter-repo` 子命令不存在）
-- 写替换规则文件（`真实值==>占位符`，每行一个）：
+- 写替换规则文件（`真实值==>占位符`，每行一个；⚠️ 下面只是示例格式，**必须用全零占位，禁止填入真实 AppID/AppSecret**——本文件曾因示例里写了真实值被 GitHub secret scanning 二次告警）：
   ```bash
   cat > .git-replacements.txt <<'EOF'
-  WECHAT_APP_ID_REDACTED==>WECHAT_APP_ID_REDACTED
-  WECHAT_APP_SECRET_REDACTED==>WECHAT_APP_SECRET_REDACTED
+  wx0000000000000000==>WECHAT_APP_ID_REDACTED
+  00000000000000000000000000000000==>WECHAT_APP_SECRET_REDACTED
   EOF
   python3 -m git_filter_repo --replace-text .git-replacements.txt --force
   rm -f .git-replacements.txt
